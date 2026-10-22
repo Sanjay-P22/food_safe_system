@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | FoodSafe</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            background: #f4f8f3;
+            color: #20352a;
+        }
+
+        .left-panel {
+            width: 55%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 65px;
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(9, 66, 43, 0.94),
+                    rgba(36, 125, 77, 0.78)
+                ),
+                url("https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1400&q=85")
+                center/cover;
+        }
+
+        .brand {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 65px;
+        }
+
+        .brand span {
+            color: #b8ed8c;
+        }
+
+        .left-panel h1 {
+            font-size: clamp(36px, 4vw, 58px);
+            line-height: 1.15;
+            margin-bottom: 22px;
+            max-width: 600px;
+        }
+
+        .left-panel p {
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 520px;
+            color: #e6f3e9;
+        }
+
+        .trust-label {
+            margin-top: 38px;
+            padding: 12px 18px;
+            border: 1px solid #ffffff55;
+            border-radius: 30px;
+            width: fit-content;
+            font-size: 14px;
+        }
+
+        .right-panel {
+            width: 45%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 42px;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px #183c2512;
+        }
+
+        .login-card h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #78837b;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dce5dd;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #21834d;
+            box-shadow: 0 0 0 3px #21834d15;
+        }
+
+        .login-button {
+            width: 100%;
+            border: none;
+            background: #176b43;
+            color: white;
+            padding: 15px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .login-button:hover {
+            background: #105334;
+        }
+
+        .error {
+            color: #b42318;
+            background: #fff0ee;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .success {
+            color: #176b43;
+            background: #edf8ef;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .signup {
+            margin-top: 24px;
+            text-align: center;
+            color: #6c786f;
+            font-size: 14px;
+        }
+
+        .signup a {
+            color: #176b43;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .forgot {
+            text-align: right;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .forgot a {
+            color: #176b43;
+            text-decoration: none;
+        }
+
+        .security {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 12px;
+            color: #8b958d;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 850px) {
+            .left-panel {
+                display: none;
+            }
+
+            .right-panel {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .login-card {
+                padding: 30px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="left-panel">
+        <div class="brand">Food<span>Safe</span></div>
+
+        <h1>Know your food.<br>Trust what you eat.</h1>
+
+        <p>
+            Explore food traceability, product information,
+            QR verification and supply-chain transparency
+            with FoodSafe.
+        </p>
+
+        <div class="trust-label">
+            Food Quality &bull; Traceability &bull; Transparency
+        </div>
+    </section>
+
+    <section class="right-panel">
+        <div class="login-card">
+
+            <h2>Welcome back</h2>
+
+            <p class="subtitle">
+                Sign in to continue to your FoodSafe dashboard.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="error">
+                    Invalid username or password. Please try again.
+                </div>
+            {% endif %}
+
+            {% if next and user.is_authenticated %}
+                <div class="error">
+                    Your account does not have permission
+                    to access that page.
+                </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="next"
+                    value="{{ next|default:'/welcome/' }}"
+                >
+
+                <div class="field">
+                    <label for="id_username">Username</label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                        autofocus
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="id_password">Password</label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="id_password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button class="login-button" type="submit">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="forgot">
+                <a href="{% url 'password_reset' %}">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <div class="signup">
+                Don't have an account?
+                <a href="{% url 'signup' %}">Create Account</a>
+            </div>
+
+            <div class="security">
+                FoodSafe Food Traceability System<br>
+                AI-Assisted Screening &bull; QR Verification
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,528 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --fs-green: #16845b;
+        --fs-dark: #123b30;
+        --fs-light: #eaf7f0;
+        --fs-bg: #f5f8f7;
+        --fs-text: #23352e;
+        --fs-muted: #718078;
+        --fs-border: #e2ebe6;
+    }
+
+    #content {
+        background: var(--fs-bg);
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    .fs-dashboard {
+        max-width: 1500px;
+        margin: 0 auto;
+        color: var(--fs-text);
+    }
+
+    .fs-hero {
+        background: linear-gradient(120deg, #123b30, #16845b);
+        color: #fff;
+        padding: 30px;
+        border-radius: 18px;
+        margin-bottom: 24px;
+        box-shadow: 0 8px 24px rgba(18, 59, 48, 0.15);
+    }
+
+    .fs-hero h1 {
+        color: #fff;
+        font-size: 30px;
+        font-weight: 750;
+        margin: 0 0 10px;
+    }
+
+    .fs-hero p {
+        color: #e0f4e9;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.7;
+    }
+
+    .fs-hero-label {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 6px 12px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+    }
+
+    .fs-section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0 16px;
+    }
+
+    .fs-section-title h2 {
+        color: var(--fs-dark);
+        font-size: 20px;
+        font-weight: 750;
+        margin: 0;
+    }
+
+    .fs-section-title span {
+        color: var(--fs-muted);
+        font-size: 12px;
+    }
+
+    .fs-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .fs-stat {
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid var(--fs-border);
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 4px 15px rgba(20, 60, 42, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .fs-stat:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(20, 60, 42, 0.09);
+    }
+
+    .fs-stat::after {
+        content: "";
+        position: absolute;
+        right: -20px;
+        bottom: -35px;
+        width: 100px;
+        height: 100px;
+        background: var(--fs-light);
+        border-radius: 50%;
+        opacity: 0.8;
+    }
+
+    .fs-stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .fs-stat-label {
+        color: var(--fs-muted);
+        font-size: 13px;
+        font-weight: 650;
+    }
+
+    .fs-stat-icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: var(--fs-light);
+        color: var(--fs-green);
+        font-size: 19px;
+        font-weight: 800;
+    }
+
+    .fs-stat-number {
+        position: relative;
+        z-index: 1;
+        color: var(--fs-dark);
+        font-size: 34px;
+        font-weight: 800;
+        margin-top: 18px;
+        line-height: 1.2;
+    }
+
+    .fs-stat-note {
+        position: relative;
+        z-index: 1;
+        color: var(--fs-muted);
+        font-size: 12px;
+        margin-top: 8px;
+    }
+
+    .fs-stat.expired .fs-stat-icon {
+        background: #fff0ed;
+        color: #c24132;
+    }
+
+    .fs-stat.expired .fs-stat-number {
+        color: #c24132;
+    }
+
+    .fs-panel {
+        background: #fff;
+        border: 1px solid var(--fs-border);
+        border-radius: 16px;
+        margin-bottom: 24px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(20, 60, 42, 0.04);
+    }
+
+    .fs-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 22px;
+        border-bottom: 1px solid var(--fs-border);
+    }
+
+    .fs-panel-header h2 {
+        color: var(--fs-dark);
+        font-size: 17px;
+        font-weight: 750;
+        margin: 0;
+    }
+
+    .fs-panel-header p {
+        color: var(--fs-muted);
+        font-size: 12px;
+        margin: 5px 0 0;
+    }
+
+    .fs-count {
+        background: var(--fs-light);
+        color: var(--fs-green);
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .fs-table-wrap {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .fs-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+    }
+
+    .fs-table th {
+        background: #f7faf8;
+        color: #63766c;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-weight: 750;
+        text-align: left;
+        padding: 15px 20px;
+        white-space: nowrap;
+    }
+
+    .fs-table td {
+        padding: 16px 20px;
+        border-top: 1px solid #edf2ee;
+        color: #45574e;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    .fs-table tbody tr:hover {
+        background: #f7fcf9;
+    }
+
+    .fs-table a {
+        color: var(--fs-green);
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .fs-table a:hover {
+        color: var(--fs-dark);
+        text-decoration: underline;
+    }
+
+    .fs-primary-text {
+        display: block;
+        color: var(--fs-dark);
+        font-weight: 700;
+    }
+
+    .fs-secondary-text {
+        display: block;
+        color: var(--fs-muted);
+        font-size: 11px;
+        margin-top: 4px;
+    }
+
+    .fs-empty {
+        padding: 28px !important;
+        text-align: center;
+        color: var(--fs-muted) !important;
+    }
+
+    .fs-empty strong {
+        display: block;
+        color: var(--fs-dark);
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .fs-admin-apps {
+        margin-top: 28px;
+    }
+
+    .fs-admin-apps #content-main {
+        float: none;
+        width: 100%;
+    }
+
+    .fs-admin-apps .module {
+        border: 1px solid var(--fs-border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 18px;
+        background: #fff;
+    }
+
+    .fs-admin-apps .module caption {
+        background: var(--fs-dark);
+        padding: 14px 18px;
+    }
+
+    .fs-admin-apps .module caption a {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 750;
+    }
+
+    .fs-admin-apps .module th,
+    .fs-admin-apps .module td {
+        padding: 13px 16px;
+        border-bottom: 1px solid #edf2ee;
+    }
+
+    .fs-admin-apps .addlink,
+    .fs-admin-apps .changelink,
+    .fs-admin-apps .viewlink {
+        font-weight: 650;
+    }
+
+    @media (max-width: 1000px) {
+        .fs-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 600px) {
+        #content {
+            padding: 12px;
+        }
+
+        .fs-hero {
+            padding: 22px;
+        }
+
+        .fs-hero h1 {
+            font-size: 24px;
+        }
+
+        .fs-stats {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .fs-stat {
+            padding: 18px;
+        }
+
+        .fs-panel-header {
+            padding: 16px;
+        }
+
+        .fs-table th,
+        .fs-table td {
+            padding: 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fs-dashboard">
+
+    <section class="fs-hero">
+        <span class="fs-hero-label">FOODSAFE ADMINISTRATION</span>
+        <h1>Food Safety Management</h1>
+        <p>
+            Manage registered products, monitor supply-chain traceability,
+            and review product expiry information from one dashboard.
+        </p>
+    </section>
+
+    <div class="fs-section-title">
+        <h2>System Overview</h2>
+        <span>Live totals from your database</span>
+    </div>
+
+    <section class="fs-stats">
+
+        <article class="fs-stat">
+            <div class="fs-stat-top">
+                <span class="fs-stat-label">Total Products</span>
+                <span class="fs-stat-icon" aria-hidden="true">P</span>
+            </div>
+            <div class="fs-stat-number">{{ total_products|default:0 }}</div>
+            <div class="fs-stat-note">Registered food products</div>
+        </article>
+
+        <article class="fs-stat">
+            <div class="fs-stat-top">
+                <span class="fs-stat-label">Supply-Chain Events</span>
+                <span class="fs-stat-icon" aria-hidden="true">↗</span>
+            </div>
+            <div class="fs-stat-number">{{ total_events|default:0 }}</div>
+            <div class="fs-stat-note">Recorded traceability events</div>
+        </article>
+
+        <article class="fs-stat">
+            <div class="fs-stat-top">
+                <span class="fs-stat-label">Food Categories</span>
+                <span class="fs-stat-icon" aria-hidden="true">C</span>
+            </div>
+            <div class="fs-stat-number">{{ total_categories|default:0 }}</div>
+            <div class="fs-stat-note">Distinct product names</div>
+        </article>
+
+        <article class="fs-stat expired">
+            <div class="fs-stat-top">
+                <span class="fs-stat-label">Expired Products</span>
+                <span class="fs-stat-icon" aria-hidden="true">!</span>
+            </div>
+            <div class="fs-stat-number">{{ expired_products|default:0 }}</div>
+            <div class="fs-stat-note">Past their expiry date</div>
+        </article>
+
+    </section>
+
+    <section class="fs-panel">
+        <div class="fs-panel-header">
+            <div>
+                <h2>Recently Registered Products</h2>
+                <p>Latest products added to FoodSafe</p>
+            </div>
+            <span class="fs-count">Latest 5</span>
+        </div>
+
+        <div class="fs-table-wrap">
+            <table class="fs-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Product ID</th>
+                        <th>Manufacturer</th>
+                        <th>Batch Number</th>
+                        <th>Expiry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in recent_products %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'admin:products_product_change' product.id %}">
+                                {{ product.product_name }}
+                            </a>
+                        </td>
+                        <td>{{ product.product_id }}</td>
+                        <td>{{ product.manufacturer }}</td>
+                        <td>{{ product.batch_number }}</td>
+                        <td>{{ product.expiry_date|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="fs-empty">
+                            <strong>No products registered yet</strong>
+                            Registered products will appear here.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="fs-panel">
+        <div class="fs-panel-header">
+            <div>
+                <h2>Recent Supply-Chain Events</h2>
+                <p>Latest recorded product movement and traceability activity</p>
+            </div>
+            <span class="fs-count">Latest 5</span>
+        </div>
+
+        <div class="fs-table-wrap">
+            <table class="fs-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Event Type</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Event Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in recent_events %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'admin:products_supplychainevent_change' event.id %}">
+                                {{ event.product.product_name }}
+                            </a>
+                            <span class="fs-secondary-text">
+                                {{ event.product.product_id }}
+                            </span>
+                        </td>
+                        <td>{{ event.event_type }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>{{ event.description|default:"—"|truncatechars:80 }}</td>
+                        <td>{{ event.event_date|date:"d M Y, H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="fs-empty">
+                            <strong>No supply-chain events recorded</strong>
+                            Events will appear here when records are available.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="fs-admin-apps">
+        <div class="fs-section-title">
+            <h2>Administration &amp; Record Management</h2>
+            <span>Manage existing records and settings</span>
+        </div>
+
+        {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+    </section>
+
+</div>
+{% endblock %}
+

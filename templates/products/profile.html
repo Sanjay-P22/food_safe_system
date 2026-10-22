@@ -1,0 +1,751 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | FoodSafe</title>
+
+    <style>
+        :root {
+            --primary: #176b43;
+            --primary-dark: #104c30;
+            --primary-light: #e9f6ee;
+            --background: #f4f8f5;
+            --surface: #ffffff;
+            --text: #1d3026;
+            --muted: #728078;
+            --border: #e0e9e2;
+            --success-bg: #e9f8ef;
+            --error-bg: #fff0f0;
+            --shadow: 0 12px 35px rgba(22, 72, 44, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            min-height: 76px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: var(--primary-light);
+            display: grid;
+            place-items: center;
+            font-size: 23px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links > a {
+            color: #56655c;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links > a:hover,
+        .nav-links > a.active {
+            color: var(--primary);
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-button {
+            border: 1px solid var(--border);
+            background: white;
+            color: #44554a;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .page-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 38px 24px 60px;
+        }
+
+        .breadcrumb {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(27px, 4vw, 35px);
+            letter-spacing: -1px;
+            margin: 0 0 9px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+        }
+
+        .account-card {
+            padding: 27px 23px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            margin: 0 auto 17px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 35px;
+            font-weight: 800;
+            border: 4px solid white;
+            box-shadow: 0 0 0 1px var(--border);
+        }
+
+        .account-card h2 {
+            margin: 0 0 7px;
+            font-size: 21px;
+            overflow-wrap: anywhere;
+        }
+
+        .account-email {
+            color: var(--muted);
+            font-size: 13px;
+            overflow-wrap: anywhere;
+            margin-bottom: 19px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--success-bg);
+            color: #167342;
+            padding: 7px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #1eaa62;
+            border-radius: 50%;
+        }
+
+        .account-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        .account-detail {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 17px;
+            font-size: 13px;
+        }
+
+        .account-detail span {
+            color: var(--muted);
+        }
+
+        .account-detail strong {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .account-note {
+            text-align: left;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+            background: #f7faf8;
+            border-radius: 10px;
+            padding: 13px;
+            margin-top: 23px;
+        }
+
+        .form-card {
+            padding: 30px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .section-heading h2 {
+            margin: 1px 0 6px;
+            font-size: 20px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            border-radius: 9px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            background: var(--success-bg);
+            color: #176b43;
+            border: 1px solid #c9ebd5;
+        }
+
+        .message.error {
+            background: var(--error-bg);
+            color: #a52b2b;
+            border: 1px solid #f3d1d1;
+        }
+
+        .form-section-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin: 27px 0 17px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 19px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #35473b;
+        }
+
+        .required {
+            color: #d34b4b;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d7e2d9;
+            border-radius: 9px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(23, 107, 67, 0.1);
+        }
+
+        input::placeholder {
+            color: #a0aaa3;
+        }
+
+        .help-text {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+            padding-top: 23px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 19px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            color: white;
+            background: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            color: #4d5b52;
+            background: #f1f5f2;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: #e7eee9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 22px;
+            color: var(--muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        @media (max-width: 760px) {
+            .navbar-inner {
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .account-card {
+                padding: 23px;
+            }
+
+            .page-content {
+                padding: 27px 15px 40px;
+            }
+
+            .form-card {
+                padding: 22px 17px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="{% url 'welcome' %}" class="brand">
+            <span class="brand-icon">🌿</span>
+            <span>FoodSafe</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{% url 'welcome' %}">Dashboard</a>
+            <a href="{% url 'product_list' %}">Products</a>
+            <a href="{% url 'search_products' %}">Search &amp; Verify</a>
+            <a href="{% url 'profile' %}" class="active">My Profile</a>
+
+            <form method="post" action="{% url 'logout' %}"
+                  class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<main class="page-content">
+
+    <div class="breadcrumb">
+        <a href="{% url 'welcome' %}">Dashboard</a>
+        &nbsp; / &nbsp; My Profile
+    </div>
+
+    <header class="page-heading">
+        <h1>My Profile</h1>
+        <p>Manage your account information and delivery details.</p>
+    </header>
+
+    {% if messages %}
+        <div class="messages" aria-live="polite">
+            {% for message in messages %}
+                <div class="message
+                    {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="profile-layout">
+
+        <aside class="card account-card">
+
+            <div class="avatar">
+                {% if request.user.first_name %}
+                    {{ request.user.first_name|first|upper }}
+                {% else %}
+                    {{ request.user.username|first|upper }}
+                {% endif %}
+            </div>
+
+            <h2>
+                {% if request.user.get_full_name %}
+                    {{ request.user.get_full_name }}
+                {% else %}
+                    {{ request.user.username }}
+                {% endif %}
+            </h2>
+
+            <div class="account-email">
+                {{ request.user.email|default:"No email added" }}
+            </div>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                {% if request.user.is_active %}
+                    Active Account
+                {% else %}
+                    Inactive Account
+                {% endif %}
+            </div>
+
+            <div class="account-divider"></div>
+
+            <div class="account-detail">
+                <span>Username</span>
+                <strong>{{ request.user.username }}</strong>
+            </div>
+
+            <div class="account-detail">
+                <span>Phone</span>
+                <strong>
+                    {{ profile.phone_number|default:"Not provided" }}
+                </strong>
+            </div>
+
+            <div class="account-detail">
+                <span>City</span>
+                <strong>
+                    {{ profile.city|default:"Not provided" }}
+                </strong>
+            </div>
+
+            <div class="account-detail">
+                <span>Last updated</span>
+                <strong>{{ profile.updated_at|date:"d M Y" }}</strong>
+            </div>
+
+            <div class="account-note">
+                <strong>Why complete your profile?</strong><br>
+                Your contact number and delivery address help FoodSafe
+                use your saved details when placing eligible food orders.
+            </div>
+
+        </aside>
+
+        <section class="card form-card">
+
+            <div class="section-heading">
+                <div class="section-icon">👤</div>
+                <div>
+                    <h2>Personal &amp; Delivery Details</h2>
+                    <p>
+                        Update your contact information and delivery
+                        address. Fields marked with * are required.
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+
+                <div class="form-section-title">
+                    Contact Information
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input
+                            id="username"
+                            type="text"
+                            value="{{ request.user.username }}"
+                            readonly
+                            aria-readonly="true"
+                        >
+                        <div class="help-text">
+                            Your account username cannot be changed here.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input
+                            id="email"
+                            type="email"
+                            value="{{ request.user.email }}"
+                            readonly
+                            aria-readonly="true"
+                        >
+                        <div class="help-text">
+                            Email editing is not enabled on this form.
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="phone_number">
+                            Phone Number <span class="required">*</span>
+                        </label>
+                        <input
+                            id="phone_number"
+                            type="tel"
+                            name="phone_number"
+                            value="{{ profile.phone_number }}"
+                            maxlength="20"
+                            placeholder="Enter your contact number"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-section-title">
+                    Delivery Address
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group full-width">
+                        <label for="address_line">
+                            Address <span class="required">*</span>
+                        </label>
+                        <input
+                            id="address_line"
+                            type="text"
+                            name="address_line"
+                            value="{{ profile.address_line }}"
+                            maxlength="255"
+                            placeholder="House number, street, area"
+                            autocomplete="street-address"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">
+                            City <span class="required">*</span>
+                        </label>
+                        <input
+                            id="city"
+                            type="text"
+                            name="city"
+                            value="{{ profile.city }}"
+                            maxlength="100"
+                            placeholder="Enter your city"
+                            autocomplete="address-level2"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input
+                            id="state"
+                            type="text"
+                            name="state"
+                            value="{{ profile.state }}"
+                            maxlength="100"
+                            placeholder="Enter your state"
+                            autocomplete="address-level1"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postal_code">
+                            PIN Code <span class="required">*</span>
+                        </label>
+                        <input
+                            id="postal_code"
+                            type="text"
+                            name="postal_code"
+                            value="{{ profile.postal_code }}"
+                            maxlength="10"
+                            placeholder="Enter PIN code"
+                            autocomplete="postal-code"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'welcome' %}"
+                       class="btn btn-secondary">
+                        Back to Dashboard
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save Profile Changes
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    FoodSafe &mdash; AI-Assisted Food Quality Screening &amp;
+    Supply Chain Traceability
+</footer>
+
+</body>
+</html>
+

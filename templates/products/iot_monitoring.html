@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodSafe | IoT Temperature Monitoring</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f7f4;
+            color: #24352b;
+        }
+
+        .header {
+            background: #176b45;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .temperature {
+            font-size: 55px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .normal {
+            color: #176b45;
+            background: #e1f5e8;
+        }
+
+        .alert {
+            color: #b42318;
+            background: #fde8e7;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 13px 22px;
+            background: #176b45;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background: #105536;
+        }
+
+        .note {
+            margin-top: 25px;
+            color: #66756b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 12px;
+            }
+
+            .temperature {
+                font-size: 42px;
+            }
+
+            .card {
+                padding: 22px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>FoodSafe</h1>
+        <p>Food Supply Chain Traceability System</p>
+    </header>
+
+    <main class="container">
+        <div class="card">
+
+            <h2>IoT Temperature Monitoring</h2>
+
+            <p>
+                Monitor simulated food-storage temperatures
+                and identify temperature anomalies.
+            </p>
+
+            <div class="temperature">
+                {{ reading.temperature }} °C
+            </div>
+
+            {% if reading.status == "NORMAL" %}
+                <div class="status normal">NORMAL</div>
+            {% else %}
+                <div class="status alert">TEMPERATURE ALERT</div>
+            {% endif %}
+
+            <p>{{ reading.message }}</p>
+
+            <hr>
+
+            <p>
+                <strong>Demonstration range:</strong><br>
+                {{ reading.minimum }} °C to {{ reading.maximum }} °C
+            </p>
+
+            <p>
+                <strong>Reading time:</strong><br>
+                {{ reading.timestamp }}
+            </p>
+
+            <form method="GET">
+                <button type="submit" class="button">
+                    Generate New Reading
+                </button>
+            </form>
+
+            <p class="note">
+                <strong>Note:</strong> This feature generates simulated
+                temperature readings. It is not connected to a physical
+                IoT sensor. The 2–8 °C range is illustrative and may not
+                be appropriate for every food product.
+            </p>
+
+        </div>
+    </main>
+
+</body>
+</html>

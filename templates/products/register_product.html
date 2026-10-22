@@ -1,0 +1,684 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register Product | FoodSafe</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        .registration-wrapper {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .registration-icon {
+            font-size: 44px;
+            margin-bottom: 10px;
+        }
+
+        .registration-header h1 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .registration-header p {
+            color: var(--muted);
+        }
+
+        .registration-form {
+            padding: 32px;
+        }
+
+        .form-heading {
+            color: var(--primary-dark);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-section-heading {
+            color: var(--primary-dark);
+            font-size: 17px;
+            margin: 28px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 20px;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+            min-width: 0;
+        }
+
+        .form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .form-field input,
+        .form-field textarea,
+        .form-field select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cfdacf;
+            border-radius: 8px;
+            background: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+        }
+
+        .form-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .field-error {
+            color: #a32121;
+            font-size: 14px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        .error-summary,
+        .message-error,
+        .message-success,
+        .message-warning,
+        .message-info {
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .error-summary,
+        .message-error {
+            background: #fff0f0;
+            border: 1px solid #f0b8b8;
+            color: #a32121;
+        }
+
+        .message-success {
+            background: #e8f6ec;
+            border: 1px solid #b7dfc2;
+            color: #176534;
+        }
+
+        .message-warning {
+            background: #fff8e6;
+            border: 1px solid #f0d58a;
+            color: #765600;
+        }
+
+        .message-info {
+            background: #eaf3ff;
+            border: 1px solid #b9d4fa;
+            color: #174b83;
+        }
+
+        .image-preview-container {
+            margin-top: 14px;
+            padding: 20px;
+            background: #f5faf5;
+            border: 1px dashed #a9c5ad;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .image-preview-container h3 {
+            font-size: 15px;
+            color: var(--primary-dark);
+            margin: 0 0 12px;
+        }
+
+        #image-preview {
+            display: none;
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #cfdacf;
+            padding: 5px;
+            background: white;
+        }
+
+        #image-file-name {
+            display: block;
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .price-preview {
+            margin-top: 14px;
+            padding: 16px;
+            background: #f0f7f1;
+            border: 1px solid #d5e8d8;
+            border-radius: 10px;
+        }
+
+        .price-preview h3 {
+            margin: 0 0 12px;
+            color: var(--primary-dark);
+            font-size: 15px;
+        }
+
+        .price-preview p {
+            margin: 7px 0;
+            color: #405c47;
+        }
+
+        .price-preview strong {
+            color: var(--primary-dark);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .form-actions .btn {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .form-actions .btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .form-actions .btn-secondary {
+            display: inline-block;
+            padding: 11px 18px;
+            background: #fff;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .form-actions .btn-secondary:hover {
+            background: #eaf4ec;
+        }
+
+        .form-note {
+            margin-top: 22px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #f0f7f1;
+            color: #405c47;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .required-mark {
+            color: #b42318;
+        }
+
+        @media (max-width: 600px) {
+            .registration-form {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-field.full-width {
+                grid-column: auto;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn,
+            .form-actions .btn-secondary {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container navbar-inner">
+        <a href="{% url 'welcome' %}" class="brand">FoodSafe</a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="{% url 'welcome' %}">Dashboard</a>
+            <a href="{% url 'product_list' %}">Products</a>
+            <a href="{% url 'profile' %}">Profile</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page-content">
+    <div class="container registration-wrapper">
+
+        <div class="registration-header">
+            <div class="registration-icon">📦</div>
+
+            <h1>Register Food Product</h1>
+
+            <p>
+                Register product details, pricing, discounts and product
+                images in the FoodSafe traceability system.
+            </p>
+        </div>
+
+        <section class="card registration-form">
+
+            <h2 class="form-heading">Product Information</h2>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div
+                        class="message-{{ message.tags }}"
+                        role="status"
+                        aria-live="polite"
+                    >
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="error-summary" role="alert">
+                    <strong>Please correct the following errors:</strong>
+
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form
+                id="product-registration-form"
+                method="POST"
+                action="{% url 'register_product' %}{% if request.GET.catalogue %}?catalogue={{ request.GET.catalogue|urlencode }}{% endif %}"
+                enctype="multipart/form-data"
+            >
+                {% csrf_token %}
+
+                <h3 class="form-section-heading">Basic Details</h3>
+
+                <div class="form-grid">
+                    {% for field in form %}
+                        {% if field.name == "product_name" or field.name == "product_id" or field.name == "manufacturer" or field.name == "batch_number" or field.name == "ingredients" %}
+
+                            <div class="form-field {% if field.name == 'ingredients' %}full-width{% endif %}">
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="required-mark">*</span>
+                                    {% endif %}
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                    <small class="field-help">
+                                        {{ field.help_text }}
+                                    </small>
+                                {% endif %}
+
+                                {% for error in field.errors %}
+                                    <div class="field-error" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <h3 class="form-section-heading">Manufacturing & Expiry</h3>
+
+                <div class="form-grid">
+                    {% for field in form %}
+                        {% if field.name == "manufacturing_date" or field.name == "expiry_date" %}
+
+                            <div class="form-field">
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="required-mark">*</span>
+                                    {% endif %}
+                                </label>
+
+                                {{ field }}
+
+                                {% for error in field.errors %}
+                                    <div class="field-error" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <h3 class="form-section-heading">Pricing & Discount</h3>
+
+                <div class="form-grid">
+                    {% for field in form %}
+                        {% if field.name == "price" or field.name == "discount_percentage" %}
+
+                            <div class="form-field">
+                                <label for="{{ field.id_for_label }}">
+                                    {% if field.name == "price" %}
+                                        Selling Price (₹)
+                                    {% else %}
+                                        Discount (%)
+                                    {% endif %}
+
+                                    {% if field.field.required %}
+                                        <span class="required-mark">*</span>
+                                    {% endif %}
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.name == "price" %}
+                                    <small class="field-help">
+                                        Enter the product price in Indian rupees.
+                                    </small>
+                                {% else %}
+                                    <small class="field-help">
+                                        Enter 0 for no discount, or a value up to 100.
+                                    </small>
+                                {% endif %}
+
+                                {% for error in field.errors %}
+                                    <div class="field-error" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="price-preview" aria-live="polite">
+                    <h3>Price Summary</h3>
+                    <p>Original price: <strong id="original-price">₹0.00</strong></p>
+                    <p>Discount: <strong id="discount-value">0%</strong></p>
+                    <p>Final price: <strong id="final-price">₹0.00</strong></p>
+                </div>
+
+                <h3 class="form-section-heading">Product Image</h3>
+
+                {% for field in form %}
+                    {% if field.name == "image" %}
+
+                        <div class="form-field">
+                            <label for="{{ field.id_for_label }}">
+                                Upload Product Image
+                            </label>
+
+                            {{ field }}
+
+                            <small class="field-help">
+                                Select a clear JPG, PNG or WebP image.
+                                Image upload is optional. Maximum size: 5 MB.
+                            </small>
+
+                            {% for error in field.errors %}
+                                <div class="field-error" role="alert">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                            <div class="image-preview-container">
+                                <h3>Product Image Preview</h3>
+
+                                <img
+                                    id="image-preview"
+                                    src=""
+                                    alt="Selected product image preview"
+                                >
+
+                                <span id="image-file-name">
+                                    No image selected
+                                </span>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+                <div id="client-error" class="error-summary" role="alert" hidden></div>
+
+                <div class="form-actions">
+                    <button
+                        type="submit"
+                        class="btn"
+                        id="register-product-button"
+                    >
+                        Register Product
+                    </button>
+
+                    <a
+                        href="{% url 'product_list' %}"
+                        class="btn-secondary"
+                    >
+                        View Registered Products
+                    </a>
+                </div>
+
+            </form>
+
+            <div class="form-note">
+                <strong>Important:</strong>
+                Enter accurate product identifiers, manufacturer details,
+                batch information, ingredients, dates and pricing.
+                These details help maintain reliable food traceability.
+            </div>
+
+        </section>
+
+        <p style="text-align: center; margin-top: 24px;">
+            <a href="{% url 'welcome' %}">← Back to Dashboard</a>
+        </p>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>FoodSafe — Food Traceability System</p>
+        <p>© 2026 FoodSafe. Academic project.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("product-registration-form");
+    const submitButton = document.getElementById("register-product-button");
+    const imageInput = document.getElementById("id_image");
+    const imagePreview = document.getElementById("image-preview");
+    const imageFileName = document.getElementById("image-file-name");
+    const clientError = document.getElementById("client-error");
+
+    const priceInput = document.getElementById("id_price");
+    const discountInput = document.getElementById("id_discount_percentage");
+
+    const originalPriceElement = document.getElementById("original-price");
+    const discountElement = document.getElementById("discount-value");
+    const finalPriceElement = document.getElementById("final-price");
+
+    let currentImageUrl = null;
+
+    function formatRupees(value) {
+        return "₹" + value.toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function updatePricePreview() {
+        const price = Math.max(0, Number(priceInput?.value || 0));
+        const discount = Math.min(
+            100,
+            Math.max(0, Number(discountInput?.value || 0))
+        );
+
+        const finalPrice = price * (1 - discount / 100);
+
+        originalPriceElement.textContent = formatRupees(price);
+        discountElement.textContent = discount + "%";
+        finalPriceElement.textContent = formatRupees(finalPrice);
+    }
+
+    if (priceInput) {
+        priceInput.addEventListener("input", updatePricePreview);
+    }
+
+    if (discountInput) {
+        discountInput.addEventListener("input", updatePricePreview);
+    }
+
+    updatePricePreview();
+
+    if (imageInput) {
+        imageInput.addEventListener("change", function () {
+            const file = this.files && this.files[0];
+
+            if (currentImageUrl) {
+                URL.revokeObjectURL(currentImageUrl);
+                currentImageUrl = null;
+            }
+
+            imagePreview.removeAttribute("src");
+            imagePreview.style.display = "none";
+
+            if (!file) {
+                imageFileName.textContent = "No image selected";
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                imageInput.value = "";
+                imageFileName.textContent = "Please select an image file.";
+                showError("The selected file is not a valid image.");
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                imageInput.value = "";
+                imageFileName.textContent = "Image exceeds the 5 MB limit.";
+                showError("Please select an image smaller than 5 MB.");
+                return;
+            }
+
+            clearError();
+
+            currentImageUrl = URL.createObjectURL(file);
+            imagePreview.src = currentImageUrl;
+            imagePreview.style.display = "inline-block";
+            imageFileName.textContent = "Selected file: " + file.name;
+        });
+    }
+
+    function showError(message) {
+        clientError.textContent = message;
+        clientError.hidden = false;
+        clientError.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    function clearError() {
+        clientError.textContent = "";
+        clientError.hidden = true;
+    }
+
+    if (form) {
+        form.addEventListener("submit", function (event) {
+            clearError();
+
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                form.reportValidity();
+                return;
+            }
+
+            if (imageInput && imageInput.files.length > 0) {
+                const file = imageInput.files[0];
+
+                if (!file.type.startsWith("image/")) {
+                    event.preventDefault();
+                    showError("Please select a valid image.");
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    event.preventDefault();
+                    showError("The image must be 5 MB or smaller.");
+                    return;
+                }
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitting...";
+        });
+    }
+});
+</script>
+
+</body>
+</html>
+

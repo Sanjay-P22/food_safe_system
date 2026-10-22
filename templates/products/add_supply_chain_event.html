@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Supply Chain Event | FoodSafe</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f8f5;
+            color: #263c2e;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2ebe4;
+        }
+
+        .navbar-inner {
+            max-width: 1150px;
+            margin: auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: #176b45;
+            font-size: 25px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #34483b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #198754;
+        }
+
+        .page-container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: #14532d;
+            font-size: 32px;
+            margin: 0 0 12px;
+        }
+
+        .page-heading p {
+            color: #6b7c70;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border: 1px solid #e1ebe3;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 5px 20px rgba(30, 70, 45, 0.05);
+        }
+
+        .form-section-title {
+            color: #14532d;
+            font-size: 21px;
+            margin: 0 0 8px;
+        }
+
+        .form-description {
+            color: #708075;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 25px;
+        }
+
+        .form-fields p {
+            margin: 0 0 22px;
+        }
+
+        .form-fields label {
+            display: block;
+            margin-bottom: 9px;
+            color: #34483b;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-fields input,
+        .form-fields select,
+        .form-fields textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d4e0d6;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #263c2e;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-fields input:focus,
+        .form-fields select:focus,
+        .form-fields textarea:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.12);
+        }
+
+        .form-fields textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-fields input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .form-fields ul {
+            padding-left: 22px;
+            color: #b42318;
+            font-size: 13px;
+        }
+
+        .form-fields .helptext {
+            display: block;
+            margin-top: 7px;
+            color: #77867b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .errorlist {
+            color: #b42318;
+            background: #fff0f0;
+            border-radius: 6px;
+            padding: 10px 10px 10px 28px;
+            font-size: 13px;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #198754;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #146c43;
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #176b45;
+            border: 1px solid #198754;
+        }
+
+        .btn-secondary:hover {
+            background: #eaf6ed;
+            color: #14532d;
+        }
+
+        .info-box {
+            margin-top: 24px;
+            padding: 16px 18px;
+            background: #edf7ef;
+            border: 1px solid #d5e9d9;
+            border-radius: 10px;
+            color: #365a41;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #14532d;
+        }
+
+        .footer {
+            margin-top: 45px;
+            padding: 24px 15px;
+            border-top: 1px solid #e1ebe3;
+            text-align: center;
+            color: #7a897e;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .page-container {
+                margin-top: 25px;
+                padding: 0 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 26px;
+            }
+
+            .form-card {
+                padding: 22px 18px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <a href="/" class="brand">FoodSafe</a>
+
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="{% url 'product_list' %}">Products</a>
+                <a href="{% url 'register_product' %}">Register Product</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+
+        <div class="page-heading">
+            <h1>Add Supply Chain Event</h1>
+            <p>
+                Record a product's movement through transportation,
+                storage, distribution, or other supply-chain stages.
+            </p>
+        </div>
+
+        <!-- Event Form -->
+        <section class="form-card">
+
+            <h2 class="form-section-title">Event Information</h2>
+
+            <p class="form-description">
+                Enter the required information accurately. Your existing
+                Django backend will process the submitted event.
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="errorlist">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="form-fields">
+                    {{ form.as_p }}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">
+                        Save Supply Chain Event
+                    </button>
+
+                    <a
+                        href="{% url 'product_list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+            <div class="info-box">
+                <strong>Record Integrity</strong>
+                Your existing backend is responsible for saving the event
+                and calculating its hash. When the hash-chain logic runs
+                successfully, the event becomes part of the product's
+                recorded supply-chain history.
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        FoodSafe — AI and Blockchain-Based Food Adulteration Screening
+        and Supply Chain Traceability System
+    </footer>
+
+</body>
+</html>

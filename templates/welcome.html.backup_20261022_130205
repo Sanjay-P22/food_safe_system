@@ -1,0 +1,1463 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSafe | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --green: #16834a;
+            --green-dark: #116438;
+            --green-light: #e9f7ef;
+            --background: #f5f7f6;
+            --white: #ffffff;
+            --text: #182b22;
+            --muted: #738078;
+            --border: #e5ebe7;
+            --shadow: 0 5px 22px rgba(20, 60, 38, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font-family: inherit;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 26px 18px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 30px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            background: var(--green);
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 23px;
+        }
+
+        .brand h2 {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .menu-label {
+            color: #9aa69e;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            padding: 15px 12px 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #68766e;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border);
+            margin-top: 25px;
+            padding: 20px 10px 0;
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        /* Main */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-width: 0;
+        }
+
+        .topbar {
+            height: 76px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #edf9f0;
+            color: #197344;
+            border-radius: 30px;
+            padding: 9px 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #26a269;
+        }
+
+        .avatar {
+            height: 38px;
+            width: 38px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--green);
+            background: var(--green-light);
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .content {
+            padding: 30px 35px 45px;
+            max-width: 1700px;
+            margin: auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 28px;
+            letter-spacing: -1px;
+            margin-bottom: 9px;
+        }
+
+        .page-heading p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .date-label {
+            font-size: 12px;
+            color: var(--muted);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 11px 14px;
+            white-space: nowrap;
+        }
+
+        /* Hero */
+
+        .hero {
+            background: linear-gradient(115deg, #116438, #1d9a59);
+            border-radius: 17px;
+            padding: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border: 35px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+            right: -60px;
+            top: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            padding: 7px 11px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .hero h2 {
+            font-size: 25px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 13px;
+            line-height: 1.9;
+            color: #e1f3e8;
+            max-width: 600px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: white;
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 12px 17px;
+            border-radius: 9px;
+            margin-top: 20px;
+            transition: 0.2s;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Statistics */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            background: var(--green-light);
+        }
+
+        .stat-number {
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .stat-note {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        /* Section heading */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .section-heading h2 {
+            font-size: 18px;
+            letter-spacing: -0.4px;
+        }
+
+        .section-heading p {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .text-link {
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Quick actions */
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 32px;
+        }
+
+        .action-card {
+            display: block;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 21px;
+            transition: 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: #9bd7b3;
+            box-shadow: var(--shadow);
+        }
+
+        .action-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: var(--green-light);
+            font-size: 21px;
+            margin-bottom: 16px;
+        }
+
+        .action-card h3 {
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .action-card p {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.8;
+            min-height: 40px;
+        }
+
+        .action-arrow {
+            display: inline-block;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        /* Catalogue */
+
+        .catalogue-section {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 24px;
+        }
+
+        .catalogue-count {
+            background: var(--green-light);
+            color: var(--green);
+            padding: 6px 9px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px auto auto;
+            gap: 10px;
+            margin: 20px 0 23px;
+        }
+
+        .filter-form input,
+        .filter-form select {
+            width: 100%;
+            min-width: 0;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #fbfcfb;
+            padding: 12px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .filter-form input:focus,
+        .filter-form select:focus {
+            border-color: var(--green);
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-secondary {
+            background: #f0f3f1;
+            color: #526158;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .product-card {
+            min-width: 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: #c9e7d4;
+        }
+
+        .product-image-wrap {
+            height: 155px;
+            background: #eef4ef;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.94);
+            color: #53705d;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .category-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .product-info h3 {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            min-height: 41px;
+            overflow-wrap: anywhere;
+        }
+
+        .product-meta {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        .product-link {
+            display: block;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 13px;
+            padding-top: 12px;
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .product-link:hover {
+            color: var(--green-dark);
+        }
+
+        .empty-state {
+            padding: 45px 15px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            grid-column: 1 / -1;
+        }
+
+        /* Pagination */
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 27px;
+        }
+
+        .page-link {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .page-link:hover,
+        .page-link.current {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .page-disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 28px 10px 5px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+
+        /* FoodSafe Leadership Team */
+        .leadership-section {
+            margin: 32px 0 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #f3faf5 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .leadership-topline {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .leadership-eyebrow {
+            color: var(--green);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .leadership-topline h2 {
+            font-size: 21px;
+            letter-spacing: -0.6px;
+            margin-bottom: 7px;
+        }
+
+        .leadership-topline p {
+            max-width: 540px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .leadership-controls {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .leadership-scroll-btn {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--green-dark);
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .leadership-scroll-btn:hover {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+        }
+
+        .leadership-track {
+            display: grid;
+            grid-auto-columns: minmax(220px, 245px);
+            grid-auto-flow: column;
+            gap: 16px;
+            overflow-x: auto;
+            overscroll-behavior-inline: contain;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 2px 2px 13px;
+            scrollbar-width: thin;
+            scrollbar-color: #a8d7b8 #edf5ef;
+        }
+
+        .leader-card {
+            min-width: 0;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            scroll-snap-align: start;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(20, 60, 38, 0.11);
+        }
+
+        .leader-photo-wrap {
+            height: 245px;
+            overflow: hidden;
+            background: #eaf4ed;
+            position: relative;
+        }
+
+        .leader-photo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+        }
+
+        .leader-number {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            padding: 6px 9px;
+            border: 1px solid rgba(255,255,255,0.65);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.92);
+            color: var(--green-dark);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+        }
+
+        .leader-info {
+            padding: 17px 16px 18px;
+        }
+
+        .leader-info h3 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .leader-role {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 6px 9px;
+            border-radius: 7px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 10px;
+            line-height: 1.4;
+            font-weight: 800;
+        }
+
+        .leader-divider {
+            height: 1px;
+            margin: 13px 0 10px;
+            background: #edf1ee;
+        }
+
+        .leader-note {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 650px) {
+            .leadership-section { padding: 17px 14px; }
+            .leadership-topline { align-items: flex-start; }
+            .leadership-topline h2 { font-size: 18px; }
+            .leadership-controls { display: none; }
+            .leadership-track { grid-auto-columns: minmax(205px, 72%); gap: 12px; }
+            .leader-photo-wrap { height: 225px; }
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1200px) {
+            .product-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .topbar {
+                padding: 0 25px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 15px;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .brand {
+                padding-bottom: 15px;
+            }
+
+            .menu-label,
+            .sidebar-footer {
+                display: none;
+            }
+
+            .sidebar nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 4px;
+            }
+
+            .nav-link {
+                margin: 0;
+                padding: 10px;
+                font-size: 11px;
+            }
+
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .topbar {
+                height: 60px;
+                padding: 0 16px;
+            }
+
+            .content {
+                padding: 20px 14px 30px;
+            }
+
+            .page-heading {
+                display: block;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .date-label {
+                display: inline-block;
+                margin-top: 13px;
+            }
+
+            .hero {
+                padding: 22px;
+            }
+
+            .hero h2 {
+                font-size: 21px;
+            }
+
+            .stats-grid,
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .product-image-wrap {
+                height: 120px;
+            }
+
+            .product-info {
+                padding: 11px;
+            }
+
+            .product-info h3 {
+                font-size: 12px;
+            }
+
+            .catalogue-section {
+                padding: 15px;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+            .system-status {
+                display: none;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image-wrap {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🌿</div>
+            <div>
+                <h2>FoodSafe</h2>
+                <p>Food Trust & Traceability</p>
+            </div>
+        </div>
+
+        <div class="menu-label">MAIN MENU</div>
+
+        <nav>
+            <a href="{% url 'welcome' %}" class="nav-link active">
+                <span class="nav-icon">▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="nav-link">
+                <span class="nav-icon">📦</span> Registered Products
+            </a>
+
+            <a href="{% url 'register_product' %}" class="nav-link">
+                <span class="nav-icon">＋</span> Register Product
+            </a>
+
+            <a href="{% url 'search_products' %}" class="nav-link">
+                <span class="nav-icon">⌕</span> Search & Verify
+            </a>
+
+            <div class="menu-label">MONITORING</div>
+
+            <a href="{% url 'ai_detection' %}" class="nav-link">
+                <span class="nav-icon">🧪</span> AI Food Screening
+            </a>
+
+            <a href="{% url 'iot_monitoring' %}" class="nav-link">
+                <span class="nav-icon">🌡️</span> IoT Monitoring
+            </a>
+
+            <a href="{% url 'profile' %}" class="nav-link">
+                <span class="nav-icon">👤</span> My Profile
+            </a>
+
+            <a href="/admin/" class="nav-link">
+                <span class="nav-icon">⚙️</span> Admin Panel
+            </a>
+
+            <a href="{% url 'logout' %}" class="nav-link">
+                <span class="nav-icon">↪</span> Logout
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <strong>FoodSafe System</strong><br>
+            AI-Assisted Food Quality<br>
+            & Supply Chain Traceability
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="topbar">
+            <div class="breadcrumb">
+                FoodSafe &nbsp;/&nbsp; <strong>Dashboard</strong>
+            </div>
+
+            <div class="top-right">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    System Dashboard
+                </div>
+
+                <div class="avatar">
+                    {{ request.user.username|slice:":1"|upper }}
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- PAGE HEADING -->
+            <section class="page-heading">
+                <div>
+                    <h1>FoodSafe Dashboard</h1>
+                    <p>
+                        Welcome, {{ request.user.username }}.
+                        Monitor food products, traceability records and
+                        food-quality screening from one place.
+                    </p>
+                </div>
+
+                <div class="date-label">
+                    📅 {% now "d M Y" %}
+                </div>
+            </section>
+
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-content">
+                    <span class="hero-tag">FOOD TRUST TECHNOLOGY</span>
+
+                    <h2>Track Every Product.<br>Build Trust in Every Bite.</h2>
+
+                    <p>
+                        FoodSafe combines AI-assisted food-quality screening,
+                        QR-based product verification and blockchain-inspired
+                        supply-chain records to improve food traceability.
+                    </p>
+
+                    <a href="{% url 'register_product' %}" class="hero-button">
+                        + Register a Product
+                    </a>
+                </div>
+            </section>
+
+            <!-- STATISTICS -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Catalogue Products</span>
+                        <div class="stat-icon">📦</div>
+                    </div>
+
+                    <div class="stat-number">
+                        {{ catalogue_count|default:0 }}
+                    </div>
+
+                    <div class="stat-note">
+                        Illustrative demo catalogue entries
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Registered Products</span>
+                        <div class="stat-icon">🛡️</div>
+                    </div>
+
+                    <div class="stat-number">
+                        {{ registered_products_count|default:0 }}
+                    </div>
+
+                    <div class="stat-note">
+                        Products saved in the database
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Supply Chain Events</span>
+                        <div class="stat-icon">🔗</div>
+                    </div>
+
+                    <div class="stat-number">
+                        {{ supply_chain_events_count|default:0 }}
+                    </div>
+
+                    <div class="stat-note">
+                        Recorded product movement events
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- QUICK ACTIONS -->
+            <section>
+                <div class="section-heading">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Access the main FoodSafe modules.</p>
+                    </div>
+                </div>
+
+                <div class="actions-grid">
+
+                    <a href="{% url 'ai_detection' %}" class="action-card">
+                        <div class="action-icon">🧪</div>
+                        <h3>AI Food Screening</h3>
+                        <p>
+                            Open the food-image screening module to assess
+                            uploaded samples.
+                        </p>
+                        <span class="action-arrow">Open module →</span>
+                    </a>
+
+                    <a href="{% url 'iot_monitoring' %}" class="action-card">
+                        <div class="action-icon">🌡️</div>
+                        <h3>IoT Temperature Monitoring</h3>
+                        <p>
+                            Monitor temperature readings and identify
+                            possible storage anomalies.
+                        </p>
+                        <span class="action-arrow">Open monitoring →</span>
+                    </a>
+
+                    <a href="{% url 'search_products' %}" class="action-card">
+                        <div class="action-icon">🔍</div>
+                        <h3>Product Traceability</h3>
+                        <p>
+                            Search products and review their available
+                            verification and tracking records.
+                        </p>
+                        <span class="action-arrow">Verify products →</span>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- PRODUCT CATALOGUE -->
+            <section class="catalogue-section">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Food Product Catalogue</h2>
+                        <p>
+                            Browse demo product variants across food categories.
+                        </p>
+                    </div>
+
+                    <span class="catalogue-count">
+                        {{ catalogue_count|default:0 }} items
+                    </span>
+                </div>
+
+                <!-- SEARCH AND FILTER -->
+                <form method="get"
+                      action="{% url 'welcome' %}"
+                      class="filter-form">
+
+                    <input
+                        type="search"
+                        name="q"
+                        placeholder="Search name, product ID or category..."
+                        value="{{ query }}"
+                        aria-label="Search catalogue">
+
+                    <select name="category" aria-label="Filter by category">
+                        <option value="">All Categories</option>
+
+                        {% for category_key, category_name in category_choices %}
+                            <option
+                                value="{{ category_key }}"
+                                {% if selected_category == category_key %}selected{% endif %}>
+                                {{ category_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+
+                    <a href="{% url 'welcome' %}" class="btn btn-secondary">
+                        Reset
+                    </a>
+                </form>
+
+                <!-- PRODUCT CARDS -->
+                <div class="product-grid">
+
+                    {% for product in products %}
+                        <article class="product-card">
+
+                            <div class="product-image-wrap">
+                                <img
+                                    class="product-image"
+                                    src="{{ product.image_url }}"
+                                    alt="{{ product.base_name }}"
+                                    loading="lazy"
+                                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/e9f7ef/16834a?text=FoodSafe+Catalogue';">
+
+                                {% if product.is_demo %}
+                                    <span class="demo-label">DEMO ITEM</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="product-info">
+
+                                <div class="category-label">
+                                    {{ product.category_label }}
+                                </div>
+
+                                <h3>{{ product.product_name }}</h3>
+
+                                <div class="product-meta">
+                                    <div>
+                                        <strong>Product ID:</strong>
+                                        {{ product.product_id }}
+                                    </div>
+
+                                    <div>
+                                        <strong>Batch:</strong>
+                                        {{ product.batch_number }}
+                                    </div>
+
+                                    <div>
+                                        <strong>Manufacturer:</strong>
+                                        {{ product.manufacturer }}
+                                    </div>
+                                </div>
+
+                                <a
+                                    class="product-link"
+                                    href="{% url 'catalogue_product_detail' product_slug=product.slug %}">
+                                    View Product Details →
+                                </a>
+
+                            </div>
+                        </article>
+
+                    {% empty %}
+                        <div class="empty-state">
+                            <h3>No products found</h3>
+                            <p style="margin-top: 8px;">
+                                Try another product name or select a different
+                                category.
+                            </p>
+                            <a
+                                href="{% url 'welcome' %}"
+                                class="btn btn-primary"
+                                style="margin-top: 18px;">
+                                Show All Products
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- PAGINATION -->
+                {% if products.has_other_pages %}
+                    <nav class="pagination" aria-label="Catalogue pagination">
+
+                        {% if products.has_previous %}
+                            <a
+                                class="page-link"
+                                href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ products.previous_page_number }}">
+                                ← Previous
+                            </a>
+                        {% else %}
+                            <span class="page-link page-disabled">
+                                ← Previous
+                            </span>
+                        {% endif %}
+
+                        {% for page_number in products.paginator.page_range %}
+                            {% if page_number == products.number %}
+                                <span class="page-link current">
+                                    {{ page_number }}
+                                </span>
+                            {% elif page_number >= products.number|add:"-2" and page_number <= products.number|add:"2" %}
+                                <a
+                                    class="page-link"
+                                    href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ page_number }}">
+                                    {{ page_number }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                            <a
+                                class="page-link"
+                                href="?q={{ query|urlencode }}&category={{ selected_category|urlencode }}&page={{ products.next_page_number }}">
+                                Next →
+                            </a>
+                        {% else %}
+                            <span class="page-link page-disabled">
+                                Next →
+                            </span>
+                        {% endif %}
+
+                    </nav>
+                {% endif %}
+
+            </section>
+
+            <!-- FOODSAFE LEADERSHIP TEAM -->
+            <section class="leadership-section" aria-labelledby="leadership-title">
+                <div class="leadership-topline">
+                    <div>
+                        <div class="leadership-eyebrow">The people behind FoodSafe</div>
+                        <h2 id="leadership-title">Our Project Leadership</h2>
+                        <p>Meet the team working together to build a safer, more transparent food traceability experience.</p>
+                    </div>
+                    <div class="leadership-controls" aria-label="Leadership team scrolling controls">
+                        <button class="leadership-scroll-btn" type="button" data-scroll="left" aria-label="Scroll team left">‹</button>
+                        <button class="leadership-scroll-btn" type="button" data-scroll="right" aria-label="Scroll team right">›</button>
+                    </div>
+                </div>
+
+                <div class="leadership-track" id="leadershipTrack" tabindex="0" aria-label="Horizontally scrolling project leadership cards">
+                    <article class="leader-card">
+                        <div class="leader-photo-wrap">
+                            <img class="leader-photo" src="{% static 'images/team/amrutha.png' %}" alt="Amrutha" loading="lazy">
+                            <span class="leader-number">01 / LEADERSHIP</span>
+                        </div>
+                        <div class="leader-info">
+                            <h3>Amrutha</h3>
+                            <span class="leader-role">Chief Executive Officer (CEO)</span>
+                            <div class="leader-divider"></div>
+                            <p class="leader-note">Project vision, leadership and overall direction.</p>
+                        </div>
+                    </article>
+
+                    <article class="leader-card">
+                        <div class="leader-photo-wrap">
+                            <img class="leader-photo" src="{% static 'images/team/aishwarya.png' %}" alt="Aishwarya" loading="lazy">
+                            <span class="leader-number">02 / LEADERSHIP</span>
+                        </div>
+                        <div class="leader-info">
+                            <h3>Aishwarya</h3>
+                            <span class="leader-role">Co-Founder</span>
+                            <div class="leader-divider"></div>
+                            <p class="leader-note">Project strategy, collaboration and team coordination.</p>
+                        </div>
+                    </article>
+
+                    <article class="leader-card">
+                        <div class="leader-photo-wrap">
+                            <img class="leader-photo" src="{% static 'images/team/deekshitha.png' %}" alt="Deekshitha" loading="lazy">
+                            <span class="leader-number">03 / LEADERSHIP</span>
+                        </div>
+                        <div class="leader-info">
+                            <h3>Deekshitha</h3>
+                            <span class="leader-role">Chief Technology Officer (CTO)</span>
+                            <div class="leader-divider"></div>
+                            <p class="leader-note">Technology direction, architecture and innovation.</p>
+                        </div>
+                    </article>
+
+                    <article class="leader-card">
+                        <div class="leader-photo-wrap">
+                            <img class="leader-photo" src="{% static 'images/team/inchara.png' %}" alt="Inchara" loading="lazy">
+                            <span class="leader-number">04 / LEADERSHIP</span>
+                        </div>
+                        <div class="leader-info">
+                            <h3>Inchara</h3>
+                            <span class="leader-role">Chief Operating Officer (COO)</span>
+                            <div class="leader-divider"></div>
+                            <p class="leader-note">Project operations, execution and delivery coordination.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <script>
+                (function () {
+                    const track = document.getElementById('leadershipTrack');
+                    if (!track) return;
+                    document.querySelectorAll('[data-scroll]').forEach(function (button) {
+                        button.addEventListener('click', function () {
+                            const direction = button.dataset.scroll === 'right' ? 1 : -1;
+                            track.scrollBy({ left: direction * 280, behavior: 'smooth' });
+                        });
+                    });
+                })();
+            </script>
+
+            <footer class="footer">
+                <p>
+                    FoodSafe — AI-Assisted Food Quality Screening &
+                    Supply Chain Traceability
+                </p>
+                <p>
+                    Demo catalogue entries are illustrative.
+                    They are not verified commercial products or actual
+                    food-safety certification records.
+                </p>
+            </footer>
+
+        </div>
+    </main>
+
+</div>
+</body>
+</html>
+

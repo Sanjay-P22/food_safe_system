@@ -1,0 +1,702 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Verification | FoodSafe</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f8f5;
+            color: #24352b;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #e2ebe4;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            color: #176b45;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #34483b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #198754;
+        }
+
+        .page-container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: #14532d;
+            font-size: 32px;
+            margin: 0 0 10px;
+        }
+
+        .page-heading p {
+            color: #68796e;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e1ebe3;
+            border-radius: 16px;
+            padding: 26px;
+            margin-bottom: 24px;
+            box-shadow: 0 5px 20px rgba(30, 70, 45, 0.05);
+        }
+
+        .section-title {
+            color: #14532d;
+            font-size: 21px;
+            margin: 0 0 22px;
+        }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .product-image {
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: 240px;
+            object-fit: contain;
+            background: #f7faf7;
+            border: 1px solid #e7eee8;
+            border-radius: 12px;
+            margin: 0 auto 22px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .detail-item {
+            padding: 16px;
+            background: #f7faf7;
+            border: 1px solid #e7eee8;
+            border-radius: 10px;
+            min-width: 0;
+        }
+
+        .detail-label {
+            display: block;
+            color: #708075;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            color: #263c2e;
+            font-size: 15px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+        }
+
+        .product-id {
+            color: #147443;
+        }
+
+        .price {
+            color: #147443;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .discount {
+            display: inline-block;
+            margin-top: 5px;
+            color: #b42318;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .qr-card {
+            text-align: center;
+            background: linear-gradient(180deg, #f1faf3, #fff);
+        }
+
+        .qr-card h2 {
+            color: #14532d;
+            font-size: 22px;
+            margin-top: 0;
+        }
+
+        .qr-card p {
+            color: #69796e;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .qr-image {
+            display: block;
+            width: 210px;
+            height: 210px;
+            max-width: 100%;
+            object-fit: contain;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #e2ebe4;
+            border-radius: 12px;
+            margin: 15px auto;
+        }
+
+        .integrity-card {
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #dce8df;
+            background: #f9fcf9;
+        }
+
+        .integrity-card h2 {
+            margin: 0 0 15px;
+            color: #14532d;
+            font-size: 20px;
+        }
+
+        .integrity-badge {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .integrity-valid {
+            background: #d9f3e2;
+            color: #146c43;
+            border: 1px solid #b7e4c7;
+        }
+
+        .integrity-invalid {
+            background: #fde2e2;
+            color: #b42318;
+            border: 1px solid #f5bcbc;
+        }
+
+        .integrity-pending {
+            background: #fff4d6;
+            color: #805b00;
+            border: 1px solid #f0d58a;
+        }
+
+        .integrity-description {
+            color: #627267;
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 14px 0 0;
+        }
+
+        .notice {
+            padding: 17px 20px;
+            border-radius: 10px;
+            background: #fff8e1;
+            border: 1px solid #f2df9c;
+            color: #70551b;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .notice strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .history-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-heading h2 {
+            color: #14532d;
+            margin: 0;
+            font-size: 23px;
+        }
+
+        .history-count {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #e1f3e6;
+            color: #176b45;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .history-table th {
+            background: #edf6ef;
+            color: #245638;
+            text-align: left;
+            padding: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e8eee9;
+            color: #45584a;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .event-type {
+            display: inline-block;
+            background: #e3f2e8;
+            color: #176b45;
+            padding: 6px 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            padding: 35px 20px;
+            text-align: center;
+            background: #f8fbf8;
+            border: 1px dashed #cbdccf;
+            border-radius: 12px;
+        }
+
+        .empty-state h3 {
+            color: #245638;
+            margin-top: 0;
+        }
+
+        .empty-state p {
+            color: #708075;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 8px;
+            background: #198754;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            margin: 5px 3px;
+        }
+
+        .btn:hover {
+            background: #146c43;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #176b45;
+            border: 1px solid #198754;
+        }
+
+        .btn-secondary:hover {
+            background: #eaf6ed;
+            color: #14532d;
+        }
+
+        .page-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #7a897e;
+            font-size: 12px;
+            padding: 25px 15px;
+            border-top: 1px solid #e1ebe3;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 800px) {
+            .product-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .page-container {
+                margin-top: 25px;
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .qr-image {
+                width: 185px;
+                height: 185px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="{% url 'welcome' %}" class="brand">FoodSafe</a>
+
+        <div class="nav-links">
+            <a href="{% url 'welcome' %}">Home</a>
+            <a href="{% url 'product_list' %}">Products</a>
+            <a href="{% url 'register_product' %}">Register Product</a>
+        </div>
+    </div>
+</nav>
+
+<main class="page-container">
+
+    <section class="page-heading">
+        <h1>Product Verification</h1>
+        <p>
+            Review product details, pricing, QR verification,
+            and the recorded supply-chain history.
+        </p>
+    </section>
+
+    <section class="product-layout">
+
+        <div class="card">
+            <h2 class="section-title">Product Information</h2>
+
+            {% if product_image %}
+                <img
+                    class="product-image"
+                    src="{{ product_image }}"
+                    alt="{{ product.product_name }}"
+                >
+            {% endif %}
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <span class="detail-label">Product Name</span>
+                    <div class="detail-value">
+                        {{ product.product_name }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Product ID</span>
+                    <div class="detail-value product-id">
+                        {{ product.product_id }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Manufacturer</span>
+                    <div class="detail-value">
+                        {{ product.manufacturer }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Batch Number</span>
+                    <div class="detail-value">
+                        {{ product.batch_number }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Manufacturing Date</span>
+                    <div class="detail-value">
+                        {{ product.manufacturing_date|date:"d M Y" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Expiry Date</span>
+                    <div class="detail-value">
+                        {{ product.expiry_date|date:"d M Y" }}
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Price</span>
+                    <div class="price">
+                        ₹{{ product.demo_price|floatformat:2 }}
+                    </div>
+
+                    {% if product.demo_discount %}
+                        <span class="discount">
+                            {{ product.demo_discount|floatformat:0 }}% discount
+                        </span>
+                    {% endif %}
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Original Price</span>
+                    <div class="detail-value">
+                        ₹{{ product.demo_original_price|floatformat:2 }}
+                    </div>
+                </div>
+
+                <div class="detail-item" style="grid-column: 1 / -1;">
+                    <span class="detail-label">Ingredients</span>
+                    <div class="detail-value">
+                        {{ product.ingredients|linebreaksbr }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card qr-card">
+            <h2>Product QR Code</h2>
+
+            <p>
+                Scan this QR code to open this product's
+                verification page.
+            </p>
+
+            {% if qr_code %}
+    <img
+        class="qr-image"
+        src="data:image/png;base64,{{ qr_code }}"
+        alt="Product QR Code"
+        onerror="this.style.display='none'; document.getElementById('qr-error').style.display='block';"
+    >
+    <p id="qr-error" style="display:none; color:#b42318;">
+        The QR image could not be loaded. Please refresh the page.
+    </p>
+{% else %}
+    <p style="color:#b42318;">
+        QR code generation failed. Please check the server.
+    </p>
+{% endif %}
+<p>
+    <strong>{{ product.product_id }}</strong>
+</p>
+
+<a
+    href="{% url 'product_detail' product_id=product.pk %}"
+    class="btn"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    Open Verification Page
+</a>
+
+
+        </div>
+
+    </section>
+
+    <section class="card">
+        <div class="integrity-card">
+            <h2>Supply Chain Integrity</h2>
+
+            {% if integrity_status == "VALID" %}
+                <span class="integrity-badge integrity-valid">
+                    VERIFIED — Hash Chain Is Valid
+                </span>
+
+            {% elif integrity_status == "INVALID" %}
+                <span class="integrity-badge integrity-invalid">
+                    INVALID — Verification Failed
+                </span>
+
+            {% else %}
+                <span class="integrity-badge integrity-pending">
+                    NOT YET VERIFIED — No Events Recorded
+                </span>
+            {% endif %}
+
+            <p class="integrity-description">
+                {{ integrity_message }}
+            </p>
+        </div>
+
+        <div class="notice">
+            <strong>Important Verification Notice</strong>
+            FoodSafe checks the consistency of registered supply-chain
+            records using a hash chain. A valid hash chain or QR code alone
+            does not prove that a product is genuine, free from adulteration,
+            or safe to consume. Laboratory testing and appropriate
+            food-safety inspections are separate processes.
+        </div>
+    </section>
+
+    <section class="card">
+
+        <div class="history-heading">
+            <h2>Supply Chain History</h2>
+
+            <span class="history-count">
+                {{ events|length }} event{{ events|length|pluralize }}
+            </span>
+        </div>
+
+        {% if events %}
+            <div class="table-wrapper">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Event Type</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                            <th>Date and Time</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for event in events %}
+                            <tr>
+                                <td>
+                                    <span class="event-type">
+                                        {{ event.event_type }}
+                                    </span>
+                                </td>
+
+                                <td>{{ event.location }}</td>
+
+                                <td>
+                                    {{ event.description|linebreaksbr }}
+                                </td>
+
+                                <td>
+                                    {{ event.event_date|date:"d M Y, h:i A" }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% else %}
+            <div class="empty-state">
+                <h3>No Supply Chain Events Yet</h3>
+                <p>
+                    No transportation, storage, distribution, or other
+                    supply-chain events have been recorded for this product.
+                    Add the first event to begin building its verification
+                    history.
+                </p>
+            </div>
+        {% endif %}
+
+        <div class="page-actions">
+            <a
+                href="{% url 'add_supply_chain_event' %}"
+                class="btn"
+            >
+                + Add Supply Chain Event
+            </a>
+
+            <a
+                href="{% url 'product_list' %}"
+                class="btn btn-secondary"
+            >
+                Back to Products
+            </a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    FoodSafe — AI and Blockchain-Based Food Quality Screening
+    and Supply Chain Traceability System
+</footer>
+
+</body>
+</html>

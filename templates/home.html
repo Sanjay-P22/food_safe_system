@@ -1,0 +1,463 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodSafe | Food Traceability System</title>
+
+    <meta name="description"
+          content="FoodSafe food traceability, QR verification, supply chain integrity, and AI-based food quality screening.">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container navbar-inner">
+
+            <a href="/" class="brand">
+                <span class="brand-icon">F</span>
+                FoodSafe
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="/" class="active">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#about">About</a>
+                <a href="/products/list/">Products</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+
+                    <span class="hero-label">
+                        FOOD TRANSPARENCY THROUGH TECHNOLOGY
+                    </span>
+
+                    <h1>
+                        Building Trust in
+                        <span>Every Food Product.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Track food products, verify supply-chain records,
+                        and explore AI-based food quality screening
+                        through one integrated platform.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a href="/products/register/" class="btn btn-primary">
+                            Register Product
+                            <span aria-hidden="true">&rarr;</span>
+                        </a>
+
+                        <a href="/products/list/" class="btn btn-secondary">
+                            View Products
+                        </a>
+
+                    </div>
+
+                    <div class="hero-note">
+                        <span class="status-dot"></span>
+                        Product tracking and hash-chain verification
+                    </div>
+
+                </div>
+
+
+                <!-- Hero Information Card -->
+                <div class="hero-visual">
+
+                    <div class="visual-decoration decoration-one"></div>
+                    <div class="visual-decoration decoration-two"></div>
+
+                    <div class="overview-card">
+
+                        <div class="overview-header">
+                            <div>
+                                <p class="eyebrow">PLATFORM OVERVIEW</p>
+                                <h2>FoodSafe System</h2>
+                            </div>
+
+                            <span class="overview-icon">FS</span>
+                        </div>
+
+                        <div class="overview-item">
+                            <div class="overview-icon-box green-box">
+                                <span>01</span>
+                            </div>
+
+                            <div class="overview-text">
+                                <h3>Product Tracking</h3>
+                                <p>Registered product information</p>
+                            </div>
+
+                            <span class="item-arrow">&rarr;</span>
+                        </div>
+
+
+                        <div class="overview-item">
+                            <div class="overview-icon-box blue-box">
+                                <span>02</span>
+                            </div>
+
+                            <div class="overview-text">
+                                <h3>QR Verification</h3>
+                                <p>Quick access to product details</p>
+                            </div>
+
+                            <span class="item-arrow">&rarr;</span>
+                        </div>
+
+
+                        <div class="overview-item">
+                            <div class="overview-icon-box purple-box">
+                                <span>03</span>
+                            </div>
+
+                            <div class="overview-text">
+                                <h3>Integrity Checking</h3>
+                                <p>SHA-256 hash-chain validation</p>
+                            </div>
+
+                            <span class="item-arrow">&rarr;</span>
+                        </div>
+
+
+                        <div class="overview-footer">
+                            <span class="status-dot"></span>
+                            Integrated traceability platform
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Features Section -->
+        <section id="features" class="section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">OUR CAPABILITIES</span>
+
+                    <h2>Everything You Need for Food Traceability</h2>
+
+                    <p>
+                        A unified platform for product information,
+                        supply-chain records, QR verification,
+                        and planned AI-based screening.
+                    </p>
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <!-- Feature 1 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon icon-green">
+                            <span>01</span>
+                        </div>
+
+                        <h3>Product Tracking</h3>
+
+                        <p>
+                            Register food products and access their
+                            manufacturer, batch number, ingredients,
+                            and other recorded details.
+                        </p>
+
+                        <a href="/products/list/" class="feature-link">
+                            Explore Products <span>&rarr;</span>
+                        </a>
+
+                    </article>
+
+
+                    <!-- Feature 2 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon icon-blue">
+                            <span>02</span>
+                        </div>
+
+                        <h3>Blockchain-Style Ledger</h3>
+
+                        <p>
+                            Link supply-chain events with SHA-256 hashes
+                            and verify the consistency of recorded data.
+                        </p>
+
+                        <a href="/products/list/" class="feature-link">
+                            View Products <span>&rarr;</span>
+                        </a>
+
+                    </article>
+
+
+                    <!-- Feature 3 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon icon-purple">
+                            <span>03</span>
+                        </div>
+
+                        <h3>QR Verification</h3>
+
+                        <p>
+                            Open product verification pages using
+                            QR codes linked to registered products.
+                        </p>
+
+                        <a href="/products/list/" class="feature-link">
+                            Verify Products <span>&rarr;</span>
+                        </a>
+
+                    </article>
+
+
+                    <!-- Feature 4 -->
+                    <article class="feature-card">
+
+                        <div class="feature-icon icon-orange">
+                            <span>04</span>
+                        </div>
+
+                        <h3>AI Food Screening</h3>
+
+                        <p>
+                            Extend the platform with a trained
+                            machine-learning model for food-image
+                            screening and classification.
+                        </p>
+
+                        <span class="planned-label">
+                            AI integration planned
+                        </span>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- How It Works -->
+        <section id="how-it-works" class="section workflow-section">
+            <div class="container">
+
+                <div class="section-heading">
+                    <span class="section-label">THE PROCESS</span>
+
+                    <h2>How FoodSafe Works</h2>
+
+                    <p>
+                        Follow the product information and recorded
+                        supply-chain events through four simple steps.
+                    </p>
+                </div>
+
+
+                <div class="workflow-grid">
+
+                    <article class="workflow-step">
+                        <div class="step-number">01</div>
+
+                        <h3>Register</h3>
+
+                        <p>
+                            Enter the product name, manufacturer,
+                            batch number, ingredients, and dates.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step">
+                        <div class="step-number">02</div>
+
+                        <h3>Record Events</h3>
+
+                        <p>
+                            Record supply-chain activities with
+                            their locations and descriptions.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step">
+                        <div class="step-number">03</div>
+
+                        <h3>Verify</h3>
+
+                        <p>
+                            Access product details using a QR code
+                            and check hash-chain integrity.
+                        </p>
+                    </article>
+
+
+                    <article class="workflow-step">
+                        <div class="step-number">04</div>
+
+                        <h3>Screen</h3>
+
+                        <p>
+                            Integrate validated AI models for
+                            supported food-image screening tasks.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+
+                <div class="about-card">
+
+                    <div class="about-content">
+
+                        <span class="section-label">ABOUT THE PROJECT</span>
+
+                        <h2>
+                            Making Food Supply Chains
+                            More Transparent
+                        </h2>
+
+                        <p>
+                            FoodSafe is an academic project that combines
+                            Python full-stack development, QR-code
+                            verification, machine learning, and
+                            hash-chain integrity checking.
+                        </p>
+
+                        <p>
+                            The system aims to make registered product
+                            information and supply-chain records easier
+                            to access and verify.
+                        </p>
+
+                        <a href="/products/register/" class="btn btn-primary">
+                            Get Started <span>&rarr;</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="about-panel">
+
+                        <div class="about-panel-item">
+                            <span class="panel-number">01</span>
+
+                            <div>
+                                <h3>Transparency</h3>
+                                <p>Access recorded product information.</p>
+                            </div>
+                        </div>
+
+
+                        <div class="about-panel-item">
+                            <span class="panel-number">02</span>
+
+                            <div>
+                                <h3>Traceability</h3>
+                                <p>Review recorded supply-chain events.</p>
+                            </div>
+                        </div>
+
+
+                        <div class="about-panel-item">
+                            <span class="panel-number">03</span>
+
+                            <div>
+                                <h3>Integrity</h3>
+                                <p>Check linked event hashes.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="disclaimer">
+                    <strong>Important:</strong>
+                    A valid hash chain confirms consistency between
+                    recorded data and its hashes. It does not independently
+                    prove food authenticity, food safety, or the absence
+                    of adulteration. QR codes provide access to information
+                    but do not guarantee its truthfulness.
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container cta-content">
+
+                <div>
+                    <h2>Start Tracking Your Products</h2>
+
+                    <p>
+                        Register a product and explore the FoodSafe
+                        traceability workflow.
+                    </p>
+                </div>
+
+                <a href="/products/register/" class="btn btn-light">
+                    Register a Product <span>&rarr;</span>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+
+            <a href="/" class="brand footer-brand">
+                FoodSafe
+            </a>
+
+            <p>
+                AI-Based Food Quality Screening &amp; Food Traceability
+            </p>
+
+            <p class="footer-copy">
+                &copy; 2026 FoodSafe. Academic project.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>
