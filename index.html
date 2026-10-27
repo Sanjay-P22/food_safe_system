@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodSafe - Smart Food Safety, AI Screening and Blockchain Traceability">
+    <title>FoodSafe | Smart Food Safety & Traceability</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #16834a;
+            --primary-dark: #086535;
+            --light-green: #e9f8ef;
+            --dark: #152b20;
+            --text: #526158;
+            --white: #ffffff;
+            --background: #f7faf8;
+            --border: #e3ece6;
+            --shadow: 0 8px 28px rgba(20, 70, 40, 0.09);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background: var(--white);
+            line-height: 1.7;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: auto;
+        }
+
+        /* Navigation */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            border-radius: 9px;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: 0.25s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: white;
+        }
+
+        .btn-outline:hover {
+            background: var(--light-green);
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(7, 49, 27, 0.94), rgba(9, 69, 36, 0.76)),
+                url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=85')
+                center/cover;
+            color: white;
+            padding: 100px 0 85px;
+        }
+
+        .hero-content {
+            max-width: 760px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5.5vw, 62px);
+            line-height: 1.17;
+            margin-bottom: 22px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            color: #7ce8a3;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: #e0f0e5;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+        }
+
+        .hero .btn-outline {
+            background: transparent;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.65);
+        }
+
+        .hero .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .hero-note {
+            margin-top: 35px;
+            font-size: 12px;
+            color: #d2e9da;
+        }
+
+        /* Stats */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 30px 0;
+        }
+
+        .stat {
+            padding: 20px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat h3 {
+            font-size: 27px;
+            color: var(--primary);
+        }
+
+        .stat p {
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        /* General sections */
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 42px;
+        }
+
+        .section-heading .tag {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(27px, 4vw, 39px);
+            line-height: 1.3;
+            margin: 10px 0 15px;
+        }
+
+        .section-heading p {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        /* Features */
+
+        .features {
+            background: var(--background);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 28px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 16px;
+            transition: 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 53px;
+            height: 53px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--light-green);
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 18px;
+        }
+
+        .text-link {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Catalogue */
+
+        .catalogue {
+            background: white;
+        }
+
+        .search-box {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .category-btn {
+            border: 1px solid var(--border);
+            background: white;
+            padding: 9px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .product-card {
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            transition: 0.25s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .product-image {
+            position: relative;
+            height: 190px;
+            overflow: hidden;
+            background: #edf4ef;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.35s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #e5f8eb;
+            color: #16733e;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-info h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .product-info p {
+            font-size: 11px;
+            color: var(--text);
+            margin-bottom: 13px;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-price {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-bottom button {
+            padding: 8px 12px;
+            font-size: 11px;
+        }
+
+        .empty-results {
+            display: none;
+            text-align: center;
+            padding: 35px;
+            color: var(--text);
+        }
+
+        /* Demo tools */
+
+        .tools {
+            background: var(--background);
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .tool-card {
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        .tool-card h3 {
+            font-size: 18px;
+            margin: 12px 0;
+        }
+
+        .tool-card p {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .tool-card input,
+        .tool-card select {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: white;
+        }
+
+        .demo-result {
+            display: none;
+            margin-top: 15px;
+            padding: 13px;
+            background: var(--light-green);
+            border-radius: 9px;
+            color: var(--primary-dark);
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .demo-warning {
+            font-size: 11px !important;
+            color: #896b25 !important;
+            margin-top: 15px;
+            margin-bottom: 0 !important;
+        }
+
+        /* Process */
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .process-card {
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        .process-number {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--light-green);
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .process-card h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .process-card p {
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        /* CTA */
+
+        .cta {
+            padding: 65px 0;
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: clamp(26px, 4vw, 38px);
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            color: #d5ebdd;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #10261a;
+            color: white;
+            padding: 45px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .footer-grid h3,
+        .footer-grid h4 {
+            margin-bottom: 15px;
+        }
+
+        .footer-grid p,
+        .footer-grid a {
+            color: #bed0c3;
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid #304739;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #bed0c3;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 950px) {
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid,
+            .tool-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-content {
+                flex-wrap: wrap;
+                padding: 12px 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .hero {
+                padding: 70px 0;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0;
+            }
+
+            .stat:nth-child(2) {
+                border-right: none;
+            }
+
+            section {
+                padding: 55px 0;
+            }
+
+            .feature-grid,
+            .tool-grid,
+            .product-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 230px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                letter-spacing: -0.5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="container nav-content">
+        <a href="#home" class="logo">🌿 Food<span>Safe</span></a>
+
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#products">Products</a>
+            <a href="#tools">Verification</a>
+            <a href="#process">How It Works</a>
+        </nav>
+
+        <a href="#tools" class="btn btn-primary">Verify Food ↗</a>
+    </div>
+</header>
+
+<!-- Hero -->
+<main>
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <span class="eyebrow">🌱 SMART FOOD SAFETY & TRACEABILITY</span>
+
+            <h1>Know Your Food.<br>Trust Every <span>Bite.</span></h1>
+
+            <p>
+                Explore a smarter approach to food safety with product
+                traceability, QR-based verification, AI-assisted food quality
+                screening concepts and blockchain-inspired supply chain tracking.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary">
+                    Explore Products →
+                </a>
+
+                <a href="#tools" class="btn btn-outline">
+                    Verify a Product
+                </a>
+            </div>
+
+            <div class="hero-note">
+                ✓ Product traceability &nbsp; ✓ Food safety awareness
+                &nbsp; ✓ Supply chain transparency
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics -->
+<div class="container">
+    <div class="stats">
+        <div class="stat">
+            <h3>01</h3>
+            <p>Product Traceability</p>
+        </div>
+
+        <div class="stat">
+            <h3>02</h3>
+            <p>AI Screening Demo</p>
+        </div>
+
+        <div class="stat">
+            <h3>03</h3>
+            <p>QR Verification Demo</p>
+        </div>
+
+        <div class="stat">
+            <h3>04</h3>
+            <p>Supply Chain Stages</p>
+        </div>
+    </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-heading">
+            <span class="tag">Our Technology</span>
+            <h2>Making Food Transparency Smarter</h2>
+            <p>
+                Discover the technologies represented in the FoodSafe project
+                and how they can support food safety and supply chain visibility.
+            </p>
+        </div>
+
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Food Quality Screening</h3>
+                <p>
+                    An interface demonstrating how an AI-assisted screening
+                    workflow could be presented to help assess food quality.
+                </p>
+                <a href="#tools" class="text-link">Try demo →</a>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">⛓️</div>
+                <h3>Blockchain Traceability</h3>
+                <p>
+                    Explore a demonstration of supply chain events and
+                    product verification concepts.
+                </p>
+                <a href="#tools" class="text-link">Explore demo →</a>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>QR Product Verification</h3>
+                <p>
+                    Enter a sample product ID to explore a demonstration
+                    of product lookup and verification.
+                </p>
+                <a href="#tools" class="text-link">Verify product →</a>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>Supply Chain Tracking</h3>
+                <p>
+                    Understand the journey of a product from its manufacturer
+                    through distribution and retail to the customer.
+                </p>
+                <a href="#process" class="text-link">View process →</a>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🌡️</div>
+                <h3>IoT Monitoring Concept</h3>
+                <p>
+                    Learn how temperature sensors and monitoring systems
+                    can support food storage and transportation.
+                </p>
+                <a href="#tools" class="text-link">View demo →</a>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Food Safety Awareness</h3>
+                <p>
+                    Explore food product information and learn why
+                    traceability, quality checks and transparency matter.
+                </p>
+                <a href="#products" class="text-link">Browse products →</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Product Catalogue -->
+<section class="catalogue" id="products">
+    <div class="container">
+        <div class="section-heading">
+            <span class="tag">Product Catalogue</span>
+            <h2>Explore Everyday Food Products</h2>
+            <p>
+                Browse this sample catalogue of common food products.
+                Product details are illustrative examples for this static demo.
+            </p>
+        </div>
+
+        <div class="search-box">
+            <input
+                type="search"
+                id="productSearch"
+                placeholder="Search rice, milk, apples, honey..."
+                aria-label="Search products"
+            >
+
+            <button class="btn btn-primary" id="searchButton">
+                Search Products
+            </button>
+        </div>
+
+        <div class="category-list">
+            <button class="category-btn active" data-category="all">All Products</button>
+            <button class="category-btn" data-category="grains">Grains</button>
+            <button class="category-btn" data-category="fruits">Fruits</button>
+            <button class="category-btn" data-category="dairy">Dairy</button>
+            <button class="category-btn" data-category="vegetables">Vegetables</button>
+            <button class="category-btn" data-category="pantry">Pantry</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+
+            <article class="product-card" data-category="grains" data-name="organic rice">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80"
+                         alt="Rice grains">
+                    <span class="product-badge">Grains</span>
+                </div>
+                <div class="product-info">
+                    <h3>Organic Rice</h3>
+                    <p>Product ID: FS-RICE-001</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹120</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-RICE-001','Organic Rice')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="dairy" data-name="fresh milk">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=700&q=80"
+                         alt="Fresh milk">
+                    <span class="product-badge">Dairy</span>
+                </div>
+                <div class="product-info">
+                    <h3>Fresh Milk</h3>
+                    <p>Product ID: FS-MILK-002</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹32</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-MILK-002','Fresh Milk')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="fruits" data-name="red apples">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80"
+                         alt="Red apples">
+                    <span class="product-badge">Fruits</span>
+                </div>
+                <div class="product-info">
+                    <h3>Red Apples</h3>
+                    <p>Product ID: FS-APPLE-003</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹150</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-APPLE-003','Red Apples')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="grains" data-name="whole wheat">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=700&q=80"
+                         alt="Wheat grains">
+                    <span class="product-badge">Grains</span>
+                </div>
+                <div class="product-info">
+                    <h3>Whole Wheat</h3>
+                    <p>Product ID: FS-WHEAT-004</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹55</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-WHEAT-004','Whole Wheat')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="fruits" data-name="fresh oranges">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=700&q=80"
+                         alt="Fresh oranges">
+                    <span class="product-badge">Fruits</span>
+                </div>
+                <div class="product-info">
+                    <h3>Fresh Oranges</h3>
+                    <p>Product ID: FS-ORANGE-005</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹80</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-ORANGE-005','Fresh Oranges')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="vegetables" data-name="fresh tomatoes">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80"
+                         alt="Fresh tomatoes">
+                    <span class="product-badge">Vegetables</span>
+                </div>
+                <div class="product-info">
+                    <h3>Fresh Tomatoes</h3>
+                    <p>Product ID: FS-TOMATO-006</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹35</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-TOMATO-006','Fresh Tomatoes')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="pantry" data-name="natural honey">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?auto=format&fit=crop&w=700&q=80"
+                         alt="Honey">
+                    <span class="product-badge">Pantry</span>
+                </div>
+                <div class="product-info">
+                    <h3>Natural Honey</h3>
+                    <p>Product ID: FS-HONEY-007</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹180</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-HONEY-007','Natural Honey')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="pantry" data-name="cooking oil">
+                <div class="product-image">
+                    <img loading="lazy"
+                         src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=700&q=80"
+                         alt="Cooking oil">
+                    <span class="product-badge">Pantry</span>
+                </div>
+                <div class="product-info">
+                    <h3>Cooking Oil</h3>
+                    <p>Product ID: FS-OIL-008</p>
+                    <div class="product-bottom">
+                        <span class="product-price">₹145</span>
+                        <button class="btn btn-outline"
+                                onclick="showProduct('FS-OIL-008','Cooking Oil')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="empty-results" id="emptyResults">
+            No matching products found. Try another search.
+        </div>
+    </div>
+</section>
+
+<!-- Verification and Demo Tools -->
+<section class="tools" id="tools">
+    <div class="container">
+        <div class="section-heading">
+            <span class="tag">Interactive Demonstrations</span>
+            <h2>Explore FoodSafe Tools</h2>
+            <p>
+                Try these front-end demonstrations. They do not connect
+                to the original Django database, AI model or blockchain.
+            </p>
+        </div>
+
+        <div class="tool-grid">
+
+            <!-- QR verification demo -->
+            <div class="tool-card">
+                <div class="feature-icon">📱</div>
+                <h3>Product Verification</h3>
+                <p>
+                    Enter one of the sample product IDs from the catalogue
+                    to view its demonstration details.
+                </p>
+
+                <input type="text" id="verifyProductId"
+                       placeholder="Example: FS-RICE-001">
+
+                <button class="btn btn-primary"
+                        onclick="verifyProduct()">
+                    Verify Product
+                </button>
+
+                <div class="demo-result" id="verifyResult" aria-live="polite"></div>
+
+                <p class="demo-warning">
+                    Demo only: this does not scan a real QR code or verify
+                    a real manufacturer's records.
+                </p>
+            </div>
+
+            <!-- AI screening demo -->
+            <div class="tool-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Screening Demo</h3>
+                <p>
+                    Select a food category to explore a simulated screening
+                    interface.
+                </p>
+
+                <select id="foodType">
+                    <option value="">Select food type</option>
+                    <option>Milk</option>
+                    <option>Rice</option>
+                    <option>Wheat</option>
+                    <option>Cooking Oil</option>
+                    <option>Honey</option>
+                    <option>Turmeric</option>
+                </select>
+
+                <button class="btn btn-primary"
+                        onclick="runScreening()">
+                    Run Demo
+                </button>
+
+                <div class="demo-result" id="aiResult" aria-live="polite"></div>
+
+                <p class="demo-warning">
+                    Demo only: no image is analysed and no actual adulteration
+                    test is performed.
+                </p>
+            </div>
+
+            <!-- Blockchain demo -->
+            <div class="tool-card">
+                <div class="feature-icon">⛓️</div>
+                <h3>Traceability Demo</h3>
+                <p>
+                    Explore sample stages in a food product's journey.
+                </p>
+
+                <select id="traceStage">
+                    <option value="">Select supply chain stage</option>
+                    <option value="manufacturer">Manufacturer</option>
+                    <option value="distributor">Distributor</option>
+                    <option value="retailer">Retailer</option>
+                    <option value="customer">Customer</option>
+                </select>
+
+                <button class="btn btn-primary"
+                        onclick="showTrace()">
+                    View Journey
+                </button>
+
+                <div class="demo-result" id="traceResult" aria-live="polite"></div>
+
+                <p class="demo-warning">
+                    Demo only: no blockchain transaction or cryptographic
+                    verification takes place.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Supply Chain -->
+<section id="process">
+    <div class="container">
+        <div class="section-heading">
+            <span class="tag">From Farm to Customer</span>
+            <h2>How Food Traceability Works</h2>
+            <p>
+                A simple overview of the four main stages represented
+                in the FoodSafe project.
+            </p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-number">01</div>
+                <h3>Manufacturer</h3>
+                <p>Product origin, batch information and manufacturing details.</p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-number">02</div>
+                <h3>Distributor</h3>
+                <p>Distribution records and product movement through the supply chain.</p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-number">03</div>
+                <h3>Retailer</h3>
+                <p>Product availability and relevant product information for buyers.</p>
+            </div>
+
+            <div class="process-card">
+                <div class="process-number">04</div>
+                <h3>Customer</h3>
+                <p>Access to product information and traceability records.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <h2>Building Trust Through Food Transparency</h2>
+        <p>
+            Explore how digital technologies can support safer,
+            more transparent food supply chains.
+        </p>
+        <a href="#products" class="btn btn-primary"
+           style="background:white;color:#086535">
+            Explore FoodSafe →
+        </a>
+    </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <a href="#home" class="logo" style="color:#7ce8a3">
+                    🌿 Food<span style="color:white">Safe</span>
+                </a>
+                <p style="margin-top:15px;max-width:390px">
+                    A demonstration project exploring AI-assisted food
+                    quality screening concepts and food supply chain traceability.
+                </p>
+            </div>
+
+            <div>
+                <h4>Explore</h4>
+                <div class="footer-links">
+                    <a href="#features">Features</a>
+                    <a href="#products">Products</a>
+                    <a href="#tools">Verification</a>
+                    <a href="#process">Supply Chain</a>
+                </div>
+            </div>
+
+            <div>
+                <h4>Project Information</h4>
+                <div class="footer-links">
+                    <a href="#home">About FoodSafe</a>
+                    <a href="#features">Technology</a>
+                    <a href="#tools">Interactive Demos</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © <span id="currentYear"></span> FoodSafe |
+            Static Website Demonstration |
+            AI and blockchain functions shown here are illustrative only.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Sample product records for the static demonstration.
+    const products = {
+        "FS-RICE-001": {
+            name: "Organic Rice",
+            category: "Grains",
+            price: "₹120"
+        },
+        "FS-MILK-002": {
+            name: "Fresh Milk",
+            category: "Dairy",
+            price: "₹32"
+        },
+        "FS-APPLE-003": {
+            name: "Red Apples",
+            category: "Fruits",
+            price: "₹150"
+        },
+        "FS-WHEAT-004": {
+            name: "Whole Wheat",
+            category: "Grains",
+            price: "₹55"
+        },
+        "FS-ORANGE-005": {
+            name: "Fresh Oranges",
+            category: "Fruits",
+            price: "₹80"
+        },
+        "FS-TOMATO-006": {
+            name: "Fresh Tomatoes",
+            category: "Vegetables",
+            price: "₹35"
+        },
+        "FS-HONEY-007": {
+            name: "Natural Honey",
+            category: "Pantry",
+            price: "₹180"
+        },
+        "FS-OIL-008": {
+            name: "Cooking Oil",
+            category: "Pantry",
+            price: "₹145"
+        }
+    };
+
+    // Product search and category filters.
+    const searchInput = document.getElementById("productSearch");
+    const productCards = document.querySelectorAll(".product-card");
+    const categoryButtons = document.querySelectorAll(".category-btn");
+
+    let selectedCategory = "all";
+
+    function filterProducts() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const name = card.dataset.name.toLowerCase();
+            const category = card.dataset.category;
+
+            const matchesSearch = name.includes(searchTerm);
+            const matchesCategory =
+                selectedCategory === "all" ||
+                category === selectedCategory;
+
+            const visible = matchesSearch && matchesCategory;
+
+            card.style.display = visible ? "" : "none";
+
+            if (visible) {
+                visibleCount++;
+            }
+        });
+
+        document.getElementById("emptyResults").style.display =
+            visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterProducts);
+
+    document.getElementById("searchButton").addEventListener("click", () => {
+        filterProducts();
+        document.getElementById("products").scrollIntoView({
+            behavior: "smooth"
+        });
+    });
+
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            categoryButtons.forEach(item =>
+                item.classList.remove("active")
+            );
+
+            button.classList.add("active");
+            selectedCategory = button.dataset.category;
+            filterProducts();
+        });
+    });
+
+    // Product details demonstration.
+    function showProduct(id, name) {
+        const product = products[id];
+
+        if (!product) {
+            alert("Product information is unavailable in this demo.");
+            return;
+        }
+
+        document.getElementById("verifyProductId").value = id;
+
+        alert(
+            "Product: " + name +
+            "\nProduct ID: " + id +
+            "\nCategory: " + product.category +
+            "\nSample Price: " + product.price +
+            "\n\nThis is illustrative catalogue information."
+        );
+
+        document.getElementById("tools").scrollIntoView({
+            behavior: "smooth"
+        });
+    }
+
+    // Sample product lookup. This is not a real QR scanner.
+    function verifyProduct() {
+        const id = document.getElementById("verifyProductId")
+            .value.trim().toUpperCase();
+
+        const result = document.getElementById("verifyResult");
+        result.style.display = "block";
+
+        if (!id) {
+            result.textContent = "Please enter a product ID.";
+            return;
+        }
+
+        const product = products[id];
+
+        if (product) {
+            result.innerHTML = "";
+
+            const heading = document.createElement("strong");
+            heading.textContent = "Sample Product Record";
+
+            const details = document.createElement("p");
+            details.textContent =
+                product.name + " | " +
+                product.category + " | " +
+                product.price;
+
+            const note = document.createElement("p");
+            note.textContent =
+                "Sample record found. No actual authenticity checks were performed.";
+
+            result.append(heading, details, note);
+        } else {
+            result.textContent =
+                "No matching sample record. Try FS-RICE-001 or FS-MILK-002.";
+        }
+    }
+
+    // Clearly labelled simulated AI screening interface.
+    function runScreening() {
+        const food = document.getElementById("foodType").value;
+        const result = document.getElementById("aiResult");
+
+        result.style.display = "block";
+
+        if (!food) {
+            result.textContent = "Please select a food category.";
+            return;
+        }
+
+        result.textContent =
+            "Demo interface for " + food +
+            ". No AI model was run, no sample was analysed, " +
+            "and no food safety conclusion can be drawn.";
+    }
+
+    // Illustrative supply chain stages.
+    function showTrace() {
+        const stage = document.getElementById("traceStage").value;
+        const result = document.getElementById("traceResult");
+
+        result.style.display = "block";
+
+        if (!stage) {
+            result.textContent = "Please select a supply chain stage.";
+            return;
+        }
+
+        const stages = {
+            manufacturer:
+                "Stage 1 — Manufacturer: sample origin and batch information.",
+            distributor:
+                "Stage 2 — Distributor: sample transportation and distribution records.",
+            retailer:
+                "Stage 3 — Retailer: sample inventory and product availability.",
+            customer:
+                "Stage 4 — Customer: sample product information and traceability access."
+        };
+
+        result.textContent =
+            stages[stage] +
+            " These are illustrative stages, not verified transaction records.";
+    }
+
+    // Automatically update the footer year.
+    document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+</script>
+
+</body>
+</html>
